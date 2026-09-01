@@ -1,3 +1,16 @@
+// Neutralize minecraft-protocol version checking before Mineflayer loads
+try {
+  const versionCheckingPath = require.resolve('minecraft-protocol/src/client/versionChecking');
+  require.cache[versionCheckingPath] = {
+    id: versionCheckingPath,
+    filename: versionCheckingPath,
+    loaded: true,
+    exports: () => {}
+  };
+} catch (e) {
+  // Fallback if path structure changes
+}
+
 const http = require('http');
 const mineflayer = require('mineflayer');
 
@@ -9,10 +22,10 @@ http.createServer((req, res) => {
 function createBot() {
   const bot = mineflayer.createBot({
     host: 'krackedsmp.falixsrv.me',
-    port: 48318,                 // Your actual Falix port
+    port: 48318,
     username: 'AFK_Bot_247',
-    version: '1.20.4',           // HARDCODING this skips the auto-ping that causes the '26.2' crash
-    auth: 'offline',             // Required for offline/cracked servers
+    version: '1.20.4',
+    auth: 'offline',
     checkTimeoutInterval: 60000
   });
 
