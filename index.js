@@ -8,11 +8,11 @@ http.createServer((req, res) => {
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'krackedsmp.falixsrv.me',
+    host: '162.55.100.208',          // Using the raw numeric IP bypasses Geyser domain pings
     port: 48318,
     username: 'AFK_Bot_247',
-    version: false,                 // Disables hardcoded version validation
-    checkTimeoutInterval: 60000
+    version: '1.20.4',              // Standard Java version
+    skipValidation: true            // Prevents Mineflayer from querying minecraft-data for unknown version tags
   });
 
   bot.on('spawn', () => {
