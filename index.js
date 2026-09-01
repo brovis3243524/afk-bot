@@ -1,18 +1,4 @@
-const mcData = require('minecraft-data');
-
-// Alias '26.2' to Java 1.20.4 protocol data so Mineflayer accepts the version string
-try {
-  const baseVer = mcData.versionsByFullVersion.pc['1.20.4'];
-  if (baseVer) {
-    const customVer = Object.assign({}, baseVer, { minecraftVersion: '26.2' });
-    mcData.versionsByFullVersion.pc['26.2'] = customVer;
-    if (mcData.supportedVersions && mcData.supportedVersions.pc) {
-      mcData.supportedVersions.pc.push('26.2');
-    }
-  }
-} catch (e) {}
-
-// Bypass internal version checking module in minecraft-protocol
+// Bypass internal protocol version checking for custom server strings
 try {
   const versionCheckingPath = require.resolve('minecraft-protocol/src/client/versionChecking');
   require.cache[versionCheckingPath] = {
@@ -36,7 +22,7 @@ function createBot() {
     host: 'krackedsmp.falixsrv.me',
     port: 48318,
     username: 'AFK_Bot_247',
-    version: '26.2',
+    version: '1.20.6', // Change to '1.21' if your server has updated to 1.21
     auth: 'offline',
     checkTimeoutInterval: 60000
   });
