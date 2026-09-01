@@ -11,16 +11,17 @@ function createBot() {
   console.log("Connecting to Geyser/Falix server...");
 
   const client = bedrock.createClient({
-    host: '162.55.100.208',
+    host: 'krackedsmp.falixsrv.me',
     port: 48318,
     username: 'AFK_Bot_247',
-    offline: true
+    offline: true,
+    skipPing: true
   });
 
   client.on('spawn', () => {
     console.log('Bot joined the server successfully!');
 
-    // Send register/login commands after spawning
+    // Send register and login commands after join
     setTimeout(() => {
       client.queue('text', {
         type: 'chat',
@@ -51,6 +52,7 @@ function createBot() {
 
   client.on('error', (err) => {
     console.log('Bot Error:', err.message || err);
+    setTimeout(createBot, 15000);
   });
 }
 
