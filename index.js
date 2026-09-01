@@ -11,7 +11,7 @@ function createBot() {
     host: 'krackedsmp.falixsrv.me',
     port: 48318,
     username: 'AFK_Bot_247',
-    version: '26.2',
+    version: false,                 // Disables hardcoded version validation
     checkTimeoutInterval: 60000
   });
 
