@@ -1,54 +1,57 @@
-// Bypass internal protocol version checking for custom server strings
-try {
-  const versionCheckingPath = require.resolve('minecraft-protocol/src/client/versionChecking');
-  require.cache[versionCheckingPath] = {
-    id: versionCheckingPath,
-    filename: versionCheckingPath,
-    loaded: true,
-    exports: () => {}
-  };
-} catch (e) {}
-
 const http = require('http');
-const mineflayer = require('mineflayer');
+const bedrock = require('bedrock-protocol');
 
+// Web server for Render health checks
 http.createServer((req, res) => {
   res.write("Bot is running!");
   res.end();
 }).listen(process.env.PORT || 8080);
 
 function createBot() {
-  const bot = mineflayer.createBot({
-    host: 'krackedsmp.falixsrv.me',
+  console.log("Connecting to Geyser/Falix server...");
+
+  const client = bedrock.createClient({
+    host: '162.55.100.208',
     port: 48318,
     username: 'AFK_Bot_247',
-    version: '1.20.6', // Change to '1.21' if your server has updated to 1.21
-    auth: 'offline',
-    checkTimeoutInterval: 60000
+    offline: true
   });
 
-  bot.on('spawn', () => {
-    console.log('Bot joined the server!');
-    
-    bot.chat('/register BotPassword123 BotPassword123');
-    bot.chat('/login BotPassword123');
+  client.on('spawn', () => {
+    console.log('Bot joined the server successfully!');
 
-    setInterval(() => {
-      bot.setControlState('jump', true);
-      setTimeout(() => bot.setControlState('jump', false), 500);
-    }, 30000);
+    // Send register/login commands after spawning
+    setTimeout(() => {
+      client.queue('text', {
+        type: 'chat',
+        needs_translation: false,
+        source_name: '',
+        message: '/register BotPassword123 BotPassword123',
+        xuid: '',
+        platform_chat_id: ''
+      });
+    }, 2000);
+
+    setTimeout(() => {
+      client.queue('text', {
+        type: 'chat',
+        needs_translation: false,
+        source_name: '',
+        message: '/login BotPassword123',
+        xuid: '',
+        platform_chat_id: ''
+      });
+    }, 4000);
   });
 
-  bot.on('kicked', (reason) => {
-    console.log('Bot was kicked. Reason:', JSON.stringify(reason));
-  });
-
-  bot.on('end', (reason) => {
-    console.log('Disconnected. Reason:', reason, '| Reconnecting in 15 seconds...');
+  client.on('disconnect', (packet) => {
+    console.log('Disconnected from server:', packet.reason || packet);
     setTimeout(createBot, 15000);
   });
 
-  bot.on('error', err => console.log('Error:', err));
+  client.on('error', (err) => {
+    console.log('Bot Error:', err.message || err);
+  });
 }
 
 createBot();
