@@ -7,9 +7,7 @@ try {
     loaded: true,
     exports: () => {}
   };
-} catch (e) {
-  // Fallback if path structure changes
-}
+} catch (e) {}
 
 const http = require('http');
 const mineflayer = require('mineflayer');
@@ -41,8 +39,12 @@ function createBot() {
     }, 30000);
   });
 
-  bot.on('end', () => {
-    console.log('Disconnected. Reconnecting in 15 seconds...');
+  bot.on('kicked', (reason) => {
+    console.log('Bot was kicked. Reason:', JSON.stringify(reason));
+  });
+
+  bot.on('end', (reason) => {
+    console.log('Disconnected. Reason:', reason, '| Reconnecting in 15 seconds...');
     setTimeout(createBot, 15000);
   });
 
