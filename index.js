@@ -9,10 +9,10 @@ http.createServer((req, res) => {
 function createBot() {
   const bot = mineflayer.createBot({
     host: 'krackedsmp.falixsrv.me',
-    port: 25565,                             // The standard Java port
+    port: 48318,                 // Your actual Falix port
     username: 'AFK_Bot_247',
-    version: false,                          // Disables the 26.2 auto-ping crash
-    fakeHost: 'krackedsmp.falixsrv.me',      // Forces the handshake
+    version: '1.20.4',           // HARDCODING this skips the auto-ping that causes the '26.2' crash
+    auth: 'offline',             // Required for offline/cracked servers
     checkTimeoutInterval: 60000
   });
 
