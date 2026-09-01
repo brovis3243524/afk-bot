@@ -8,11 +8,9 @@ http.createServer((req, res) => {
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: '162.55.100.208',
-    port: 48318,
+    host: 'krackedsmp.falixsrv.me',
+    port: REPLACE_WITH_JAVA_PORT, // Replace with the port from the Java Edition tab
     username: 'AFK_Bot_247',
-    version: false,
-    fakeHost: 'krackedsmp.falixsrv.me',
     checkTimeoutInterval: 60000
   });
 
