@@ -2,7 +2,10 @@
   "name": "afk-bot",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "mineflayer": "^4.20.0"
+    "bedrock-protocol": "^1.26.0"
   }
 }
